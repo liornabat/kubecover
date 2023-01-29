@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	data, err := os.ReadFile("hoocus-production.json")
+	data, err := os.ReadFile("hoocus--design-pack-builder.json")
 	if err != nil {
 		panic(err)
 	}
@@ -18,14 +18,18 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	clusterReport := trivy.NewClusterReport().ImportClusterDTO(clusterDto, "", time.Now())
+	reportDate, err := time.Parse("2006-01-02", "2023-01-29")
+	if err != nil {
+		panic(err)
+	}
+	clusterReport := trivy.NewClusterReport().ImportClusterDTO(clusterDto, "", reportDate)
 	//// clusterReport.Print()
 	//err = os.WriteFile("hoocus-vuln.csv", []byte(clusterReport.CSVVulnerabilitiesReport()), 0644)
 	//if err != nil {
 	//	panic(err)
 	//}
 
-	err = os.WriteFile("hoocus-production-jsonl.txt", []byte(clusterReport.ExportJsonL()), 0644)
+	err = os.WriteFile("hoocus--design-pack-builder-jsonl.txt", []byte(clusterReport.ExportJsonL()), 0644)
 	if err != nil {
 		panic(err)
 	}
